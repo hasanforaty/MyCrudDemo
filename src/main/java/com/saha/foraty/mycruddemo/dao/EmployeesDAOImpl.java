@@ -3,9 +3,11 @@ package com.saha.foraty.mycruddemo.dao;
 import com.saha.foraty.mycruddemo.entity.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class EmployeesDAOImpl implements EmployeesDAO {
     private final EntityManager entityManager;
 
