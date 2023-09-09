@@ -1,6 +1,6 @@
 package com.saha.foraty.mycruddemo.service;
 
-import com.saha.foraty.mycruddemo.dao.EmployeesDAO;
+import com.saha.foraty.mycruddemo.dao.EmployeeRepository;
 import com.saha.foraty.mycruddemo.entity.Employee;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,36 +8,34 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private final EmployeesDAO employeesDAO;
+    private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeesDAO employeesDAO) {
-        this.employeesDAO = employeesDAO;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeesDAO.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
     public Employee findById(int id) {
-        return employeesDAO.findById(id);
+        var result =employeeRepository.findById(id);
+        if(result.isPresent()){
+            return result.get();
+        }
+        throw  new RuntimeException("didn't find employee id - "+id);
     }
 
-    @Override
-    public List<Employee> findByFirstName(String firstName) {
-        return employeesDAO.findByFirstName(firstName);
-    }
 
     @Override
-    @Transactional
     public Employee save(Employee theEmployee) {
-        return employeesDAO.save(theEmployee);
+        return employeeRepository.save(theEmployee);
     }
 
     @Override
-    @Transactional
     public void deleteById(int theId) {
-        employeesDAO.deleteById(theId);
+        employeeRepository.deleteById(theId);
     }
 }
